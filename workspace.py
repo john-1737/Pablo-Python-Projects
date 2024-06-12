@@ -1,2 +1,1 @@
-print(10000000 * 'AP')
-
+print('hello world ' * 1000000)
