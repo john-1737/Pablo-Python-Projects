@@ -1,1 +1,1 @@
-print('hello world ' * 1000000)
+print('' * 1000)
