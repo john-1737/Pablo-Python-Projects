@@ -1,0 +1,10 @@
+from tkinter import *
+tk = Tk()
+canvas = Canvas(tk, width=400, height=400)
+canvas.pack()
+speak_now = PhotoImage(file='/Users/jbellows/Pablo Python Projects/photoimages/taylorspeaknow.gif')
+canvas.create_image(0, 0, anchor=NW, image=speak_now)
+canvas.create_text(100, 250, text='Speak Now\n(Taylor\'s Version)', font=('Helvetica', 20))
+canvas.create_text(100, 340, text='Album - July 7, 2023\n22 songs, 1hr 44min', font=('Helvetica', 15))
+canvas.create_text(100, 300, text='Taylor Swift', font=('Helvetica', 18))
+tk.mainloop()
