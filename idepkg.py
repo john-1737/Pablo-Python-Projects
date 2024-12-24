@@ -13,7 +13,7 @@ def open_file(inp):
     filename = filedialog.askopenfilename()
     if filename == '':
         return
-    with open(filename) as f:
+    with open(filename, encoding='utf-8') as f:
         inp.delete(1.0, 'end')
         inp.insert(1.0, f.read())
 
