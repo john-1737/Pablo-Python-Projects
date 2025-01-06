@@ -1,4 +1,4 @@
-#v1.0
+#v1.1
 import pygame as pg
 from pygame.locals import *
 from sys import exit
@@ -48,12 +48,15 @@ class Ship(Sprite):
         else:
             red_ships.add(self)
             self.image = red_ship_image
+        self.angle = ra.randint(250, 290)
+        self.rad = deg_to_rad(self.angle)
         all_ships.add(self)
         self.location = (ra.randint(0, 790), -50)
         self.rect = self.image.get_rect(topleft=self.location)
         
     def update(self):
-        self.rect.y += 3
+        self.rect.y += abs(ma.sin(self.rad) * 3)
+        self.rect.x += abs(ma.cos(self.rad) * 3)
         if self.rect.y >= H + 50:
             self.kill()
 
@@ -105,10 +108,12 @@ while True:
         render_text('When you hit a green ship, you win a point.', (50, 150), font)
         render_text('When you hit a red ship, you lose a life.', (50, 200), font)
         render_text('When you lose all 5 lives, the game ends.', (50, 250), font)
-        render_text('Press ESC at any time to exit.', (50, 300), font)
-        render_text('Press space to start!', (50, 350), font)
+        render_text('Press P during the game to pause.', (50, 300), font)
+        render_text('Press ESC at any time to exit.', (50, 350), font)
+        render_text('Press space to start!', (50, 400), font)
         pg.display.flip()
     score, lives = 0, 5
+    paused = False
     while lives:
         for event in pg.event.get():
             if event.type == QUIT:
@@ -117,23 +122,33 @@ while True:
             elif event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
                     pg.quit()
-                    exit()                       
-        if ra.randint(1, max(2, 100 - score * 3)) == 1:
-            ship = Ship(ra.choice(['green', 'red']))
-        screen.blit(background, (0,0))
-        all_ships.update()
-        all_ships.draw(screen)
-        if pg.sprite.spritecollide(player, red_ships, True):
-            collision_sound.play()
-            lives -= 1
-        if pg.sprite.spritecollide(player, green_ships, True):
-            pop_sound.play()
-            score += 1
-        render_text(f'Score: {score}    Lives: {lives}', (10, 10), font)    
+                    exit()
+                elif event.key == K_p:
+                    paused = not paused
+        if not paused:                    
+            if ra.randint(1, max(2, 100 - score * 3)) == 1:
+                ship = Ship(ra.choice(['green', 'red']))
+            screen.blit(background, (0,0))
+            all_ships.update()
+            all_ships.draw(screen)
+            if pg.sprite.spritecollide(player, red_ships, True):
+                collision_sound.play()
+                lives -= 1
+            if pg.sprite.spritecollide(player, green_ships, True):
+                pop_sound.play()
+                score += 1
+            render_text(f'Score: {score}    Lives: {lives}', (10, 10), font)
+        else:
+            render_text('Paused', (10, 100), font)
+            render_text('Click P to restart', (10, 150), font)    
         clock.tick(60)
         pg.display.flip()
     game_over_font = pg.font.SysFont(None, 70)
     restart = False
+    for ship in red_ships:
+        ship.kill()
+    for ship in green_ships:
+        ship.kill()        
     while not restart:
         for event in pg.event.get():
             if event.type == QUIT:
