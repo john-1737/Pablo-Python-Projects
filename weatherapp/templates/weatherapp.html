@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            h1 { color : black;
+            font-family: verdana;
+            }
+            label { color : black;
+            font-family: verdana;
+            }
+            input { color : black;
+            font-family: verdana;
+            }
+            p { color : black;
+            font-family: verdana;
+            }                       
+        </style>
+    </head>
+    <body>
+        <h1>WeatherApp</h1>
+        <form action="/button_clicked" method="post">
+            <label
+            for="city">Enter your city:</label>
+            <input type="text"
+            name="city"
+            id="city">
+            <input type="submit"
+            value="Submit"> 
+        </form>
+        <p>The current weather in {{ city }} is {{ weather }}.</p>
+        <p>The current date and time in {{ city }} is {{ time }}.</p>
+    </body>
+</html>
