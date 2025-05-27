@@ -12,8 +12,8 @@ while True:
             exit()
         elif not password:
             exit()
-        #if i:
-        #    mb.showinfo(message=f'Incorrect password ({i} tries left)')
+        if i:
+            mb.showinfo(message=f'Incorrect password ({i} tries left)')
     go = mb.askokcancel(message='Press OK to try again in 10 seconds.')
     if not go:
         break

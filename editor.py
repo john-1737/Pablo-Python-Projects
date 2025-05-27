@@ -73,6 +73,7 @@ inp_yscroller = tk.Scrollbar(editor, command=inp.xview, orient='horizontal', bg=
 inp_yscroller.grid(column=0, row=2, sticky='ew', columnspan=3)
 inp.config(yscrollcommand = inp_yscroller.set)
 output = tk.Text(editor, width=40, height=50, state='disabled')
+output.tag_configure('right', justify=tk.RIGHT)
 output.grid(column=3, row=1, columnspan=3)
 
 tk.Label(root, text='Enter commands for terminal').pack()

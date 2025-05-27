@@ -51,12 +51,12 @@ class Paddle:
     def turn_left(self, evt):
         ppos = self.canvas.coords(self.id)
         if evt.keysym == 'Left':
-            canvas.move(self.id, -50, 0)
+            self.canvas.move(self.id, -50, 0)
 
     def turn_right(self, evt):
         ppos = self.canvas.coords(self.id)
         if evt.keysym == 'Right':
-            canvas.move(self.id, 50, 0)
+            self.canvas.move(self.id, 50, 0)
 class Player:
     def __init__(self, canvas):
         self.canvas = canvas
@@ -79,34 +79,44 @@ class Game:
                                         +'Hit the ball with the paddle to earn a point.\n'
                                         +'The game ends when the ball hits the bottom of the screen.\n'
                                         +'Click the screen to start!', fill='blue', font=('Helvetica', 15), state='normal')
-        self.canvas.bind_all('<KeyPress-Return>', self.start_game)
+        self.canvas.bind_all('<Button-1>', self.start_game)
     def start_game(self, evt):
         self.gamestart = True
         self.canvas.itemconfig(self.start, state='hidden')
-        
-tk = Tk()
-tk.title('Bounce Game')
-tk.resizable(0, 0) 
-tk.wm_attributes('-topmost', 1)
-canvas = Canvas(tk, width=500, height=400, bd=0, highlightthickness=0)
-canvas.pack()
-tk.update()
 
-player = Player(canvas)
-paddle = Paddle(canvas, 'magenta')
-ball = Ball(canvas, paddle, player, 'green')
-bouncegame = Game(canvas)
-
-while True:
-    if ball.hit_bottom == False:
-        if bouncegame.gamestart == True:
-            ball.draw(player)
-            paddle.draw()
-        player.draw()
-    else:
-        if displaytext == False:
-            canvas.create_text(250, 200, text='Game over!', font=('Helvetica', 40), fill='red')
-            displaytext = True
-    tk.update_idletasks()
+def main(): 
+    tk = Tk()
+    tk.title('Bounce Game')
+    tk.resizable(0, 0) 
+    tk.wm_attributes('-topmost', 1)
+    canvas = Canvas(tk, width=500, height=400, bd=0, highlightthickness=0)
+    canvas.pack()
     tk.update()
-    time.sleep(0.01)
+    displaytext = False
+
+    player = Player(canvas)
+    paddle = Paddle(canvas, 'magenta')
+    ball = Ball(canvas, paddle, player, 'green')
+    bouncegame = Game(canvas)
+
+    while True:
+        if ball.hit_bottom == False:
+            if bouncegame.gamestart == True:
+                ball.draw(player)
+                paddle.draw()
+            player.draw()
+        else:
+            if displaytext == False:
+                canvas.create_text(250, 200, text='Game over!', font=('Helvetica', 40), fill='red')
+                displaytext = True
+                break
+        tk.update_idletasks()
+        tk.update()
+        time.sleep(0.01)
+    tk.update()
+    time.sleep(3)
+    tk.destroy()
+    return player.score
+
+if __name__ == '__main__':
+    main()

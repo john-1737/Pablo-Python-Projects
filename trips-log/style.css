@@ -1,0 +1,11 @@
+h1 { color : black;
+font-family: verdana;
+}
+p { font-family: verdana;}
+h2 { font-family: verdana;}
+table {background-color:aqua;}
+th {font-family: verdana;font-weight: bold;border:1px solid black;}
+td {font-family: verdana;border:1px solid black;}
+.textbox{border: 1px solid black;}
+.float-left{float: left; padding-right:1rem}
+.float-right{float: right; padding-left:1rem}

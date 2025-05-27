@@ -35,17 +35,17 @@ def handle_joyevent(event):
             if event.axis == 2:
                 if event.value <= 0:
                     if cursor[0] != 0:
-                        cursor[0] -= 1
+                        cursor[0] -= 0.5
                 else:
                     if cursor[0] != W:
-                        cursor[0] += 1                 
+                        cursor[0] += 0.5                 
             elif event.axis == 3:
                 if event.value <= 0:
                     if cursor[1] != 0:
-                        cursor[1] -= 1               
+                        cursor[1] -= 0.5            
                 else:
                     if cursor[1] != H:
-                        cursor[1] += 1
+                        cursor[1] += 0.5
 
 pg.font.init()
 font = pg.font.SysFont(None, 48)

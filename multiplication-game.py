@@ -54,7 +54,6 @@ for i in equations:
     else:
         b.showinfo(message=f'Answer is incorrect.\nCorrect anwer : {i.answer}')
     answer_var.set(0)
-
 b.showinfo(message=f'You got {corrects} out of 10 correct answers.')
 av_time = m.floor(sum(times) / corrects)
 b.showinfo(message=f'Your average time was {divmod(av_time, 60)}')

@@ -84,7 +84,8 @@ def ai_move(board):
             break
     board[choice(board)].append(YELLOW)
             
-def handle_joyevent(event, player, winner, cursor):
+def handle_joyevent(event, player, winner):
+    global cursor
     joy_control = 0 if player == RED else 2
     if event.type == pg.JOYBUTTONDOWN and winner == None:
         if event.button == 7+(joy_control / 2):
@@ -220,7 +221,7 @@ winner = None
 cursor = 0
 while True:
     for event in pg.event.get():
-        handle_joyevent(event, turn, winner, cursor)
+        handle_joyevent(event, turn, winner)
         if event.type == pg.QUIT:
             pg.quit()
             exit()
