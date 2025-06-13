@@ -1,0 +1,1 @@
+from tkinter import Tk, Scale, Canvas, StringVar, Labe

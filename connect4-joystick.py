@@ -86,10 +86,13 @@ def ai_move(board):
             
 def handle_joyevent(event, player, winner):
     global cursor
-    joy_control = 0 if player == RED else 2
-    if event.type == pg.JOYBUTTONDOWN and winner == None:
+    if player == RED:
+        joy_control = 0
+    else:
+        joy_control = 2
+        """if event.type == pg.JOYBUTTONDOWN and winner == None:
         if event.button == 7+(joy_control / 2):
-            if place_disk(*event.pos, turn): 
+            if place_disk(cursor, turn): 
                 if two_player:
                     turn = {RED:YELLOW, YELLOW:RED}[turn]
                 else:
@@ -97,10 +100,13 @@ def handle_joyevent(event, player, winner):
                         ai_move(board)
                         for i in board:
                             if len(i) == 7:
-                                retry = False
+                                retry = False """
     if event.type == pg.JOYAXISMOTION:
         if abs(round(event.value, 2)) == 1:
-            joy_control = 0 if player == 'x' else 2
+            if player == RED:
+                joy_control = 0
+            else:
+                joy_control = 2
             if event.axis == 0+joy_control:
                 if event.value <= 0:
                     if cursor != 0:
@@ -122,21 +128,17 @@ def display_board(board):
         for k, l in enumerate(j):
             draw_circle((x_positions[i], y_positions[k]), l)      
         if i == cursor:
-            pg.draw.polygon(screen, WHITE, ((i + 10, 10), (i + 90, 10), (i + 50, 25)))
+            pg.draw.polygon(screen, WHITE, ((x_positions[i] - 40, 10), (x_positions[i] + 40, 10), (x_positions[i], 25)))
 
-def place_disk(x, y, turn):
+def place_disk(x, turn):
     global error
-    if y > HEIGHT:
-        error = 'Please click inside a column.'
+    if len(board[x]) == 6:
+        error = 'That column is full.'
         return False
     else:
-        if len(board[x // 100]) == 6:
-            error = 'That column is full.'
-            return False
-        else:
-            board[x // 100].append(turn)
-            error = ''
-            return True
+        board[x].append(turn)
+        error = ''
+        return True
         
 def render_text(text, pos, font, bold=True, color=WHITE):
     text_surface = font.render(text, bold, color)
@@ -206,10 +208,10 @@ while two_player == None:
         if event.type == pg.QUIT:
             pg.quit()
             exit()
-        elif event.type == pg.KEYDOWN:
-            if event.key == pg.K_1:
+        elif event.type == pg.JOYBUTTONDOWN:
+            if event.button == 9:
                 two_player = False         
-            elif event.key == pg.K_2:
+            elif event.button == 10:
                 two_player = True
     screen.fill((0, 0, 0))
     display_board(board)
@@ -226,7 +228,11 @@ while True:
             pg.quit()
             exit()
         elif event.type == pg.MOUSEBUTTONDOWN:
-            if event.button == 1 and not (winner or tie):
+            if player == RED:
+                joy_control = 0
+            else:
+                joy_control = 2
+            if event.button == 7+(joy_control / 2) and not (winner or tie):
                 if place_disk(*event.pos, turn): 
                     if two_player:
                         turn = {RED:YELLOW, YELLOW:RED}[turn]
