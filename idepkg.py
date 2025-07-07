@@ -9,8 +9,11 @@ def run_terminal(terminal_var, terminal_entry):
     os.system(terminal_var.get())
     terminal_entry.delete(0, 'end')
 
-def open_file(inp):
+def ask_open_file(inp):
     filename = filedialog.askopenfilename()
+    open_file(inp, filename)
+
+def open_file(inp, filename):
     if filename == '':
         return
     with open(filename, encoding='utf-8') as f:
@@ -35,11 +38,11 @@ def on_return(text):
     text.insert('end', '\n>>> ', ('prompt',))
     return'break'
 
-'''def calc_return(prompt, text, output):
+def calc_return(prompt, text):
+    global output
     text['state'] = 'disabled'
+    text.unbind('<Return>')
     text_ls = list(text.get(1.0, 'end').splitlines().pop())
-    for i in len(str(prompt)):
-        text.remove(i)
     text = str(text_ls)
-    output = text'''
+    out = text
 

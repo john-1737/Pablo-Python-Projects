@@ -36,7 +36,9 @@ c+
 v=
 b/
 n;
-m:'''.splitlines()
+m:
+,,
+..'''.splitlines()
 letter_to_symbol = {}
 for i in letter_to_symbol_str:
     letter_to_symbol[i[0]] = i[1]
