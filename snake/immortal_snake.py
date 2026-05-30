@@ -131,7 +131,8 @@ score = 0
 while not game_over:
     for event in pg.event.get():
         if event.type == pg.QUIT:
-            raise SystemExit
+            pg.quit()
+            exit()
         elif event.type == pg.KEYDOWN:
             if event.key in[pg.K_LEFT, pg.K_RIGHT, pg.K_UP, pg.K_DOWN]:
                s.rotate(event.key)
@@ -155,7 +156,8 @@ while not game_over:
 while True:
     for event in pg.event.get():
         if event.type == pg.QUIT:
-            raise SystemExit
+            pg.quit()
+            exit()
     game()
     render_text('game over!', (10*SIZE, 3*SIZE), font)
     pg.display.update()

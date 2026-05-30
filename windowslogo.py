@@ -1,5 +1,5 @@
 import turtle
-import time, this
+import time
 t = turtle.Turtle()
 def createsquare(red,green,blue):
     t.color(float(red),float(green),float(blue))

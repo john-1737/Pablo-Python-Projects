@@ -7,9 +7,11 @@ t.shape('leaf')
 t.color('green')
 t.speed(0)
 
+t.setheading(180)
 #Draw a square
-for i in range(4):
-    t.forward(200)
-    t.left(90)
+#for i in range(4):
+#    t.forward(200)
+#    t.left(90)
+t.forward(200)
     
 input()

@@ -39,10 +39,10 @@ def on_return(text):
     return'break'
 
 def calc_return(prompt, text):
-    global output
+    global out
     text['state'] = 'disabled'
     text.unbind('<Return>')
     text_ls = list(text.get(1.0, 'end').splitlines().pop())
-    text = str(text_ls)
+    text = ''.join(text_ls)
     out = text
 

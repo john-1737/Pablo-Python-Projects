@@ -19,7 +19,7 @@ def open_file():
     global file
     with open(filedialog.askopenfilename()) as f:
         file = f.read()
-        csv_to_tree(file)
+    csv_to_tree(file)
 root = Tk()
 n = ttk.Notebook(root)
 n.pack()

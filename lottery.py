@@ -5,7 +5,7 @@ import lottery_games as lg
 money = 10
 def win_or_lose_lottery():
     num = lbox2.curselection()[0]
-    price, pot = lotteries[num]
+    price, pot = lose_lotteries[num]
     global money
     if money - (price + pot) < 1 and not messagebox.askokcancel(message='Are you sure? This may make you lose.'):
         return
@@ -17,7 +17,7 @@ def win_or_lose_lottery():
     moneyl['text'] = '$' + str(money)
     if money < 0:
         root.destroy()
-        messagebox.showwarning(message='Game over! You lost all your money.')
+        messagebox.showwarning(message=f'Game over! You lost all your money. You now have ${money}')
 def win_up_to_lottery():
     num = lbox1.curselection()[0]
     price, pot = lotteries[num]

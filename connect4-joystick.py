@@ -84,7 +84,7 @@ def ai_move(board):
             break
     board[choice(board)].append(YELLOW)
             
-def handle_joyevent(event, player, winner):
+def handle_joyevent(event, player, winner, tie):
     global cursor
     if player == RED:
         joy_control = 0
@@ -101,7 +101,7 @@ def handle_joyevent(event, player, winner):
                         for i in board:
                             if len(i) == 7:
                                 retry = False """
-    if event.type == pg.JOYAXISMOTION:
+    if event.type == pg.JOYAXISMOTION and not (winner or tie):
         if abs(round(event.value, 2)) == 1:
             if player == RED:
                 joy_control = 0
@@ -118,7 +118,7 @@ def handle_joyevent(event, player, winner):
 def draw_circle(pos, color):
     pg.draw.circle(screen, color, pos, 45, width=50)
 
-def display_board(board):
+def display_board(board, winner, tie):
     for i in range(1, 7):
         pg.draw.line(screen, WHITE, ((WIDTH // 7) * i, 0), ((WIDTH // 7) * i, HEIGHT), 5)
     pg.draw.line(screen, WHITE, (0, HEIGHT), (WIDTH, HEIGHT), 5)
@@ -127,7 +127,7 @@ def display_board(board):
     for i, j in enumerate(board):
         for k, l in enumerate(j):
             draw_circle((x_positions[i], y_positions[k]), l)      
-        if i == cursor:
+        if i == cursor and not (winner or tie):
             pg.draw.polygon(screen, WHITE, ((x_positions[i] - 40, 10), (x_positions[i] + 40, 10), (x_positions[i], 25)))
 
 def place_disk(x, turn):
@@ -213,27 +213,31 @@ while two_player == None:
                 two_player = False         
             elif event.button == 10:
                 two_player = True
+            elif event.button == 0:
+                pg.quit()
+                exit()
     screen.fill((0, 0, 0))
-    display_board(board)
-    render_text('Press 1 key for 1-player mode.', (50, 600), font, color=WHITE)
-    render_text('Press 2 key for 2-player mode.', (50, 650), font, color=WHITE)
+    display_board(board, True, True)
+    render_text('Press L1 key for 1-player mode.', (50, 600), font, color=WHITE)
+    render_text('Press R1 key for 2-player mode.', (50, 650), font, color=WHITE)
     pg.display.update()
 
 winner = None
+tie = None
 cursor = 0
 while True:
     for event in pg.event.get():
-        handle_joyevent(event, turn, winner)
+        handle_joyevent(event, turn, winner, tie)
         if event.type == pg.QUIT:
             pg.quit()
             exit()
-        elif event.type == pg.MOUSEBUTTONDOWN:
-            if player == RED:
+        elif event.type == pg.JOYBUTTONDOWN:
+            if turn == RED:
                 joy_control = 0
             else:
-                joy_control = 2
-            if event.button == 7+(joy_control / 2) and not (winner or tie):
-                if place_disk(*event.pos, turn): 
+                joy_control = 1
+            if event.button == 7+(joy_control) and not (winner or tie):
+                if place_disk(cursor, turn): 
                     if two_player:
                         turn = {RED:YELLOW, YELLOW:RED}[turn]
                     else:
@@ -242,6 +246,9 @@ while True:
                             for i in board:
                                 if len(i) == 7:
                                     retry = False
+            elif event.button == 0:
+                pg.quit()
+                exit()
 
         if event.type == pg.JOYDEVICEADDED:
             joystick = pg.joystick.Joystick(event.device_index)
@@ -251,7 +258,7 @@ while True:
             del joysticks[event.instance_id]
 
     screen.fill((0, 0, 0))
-    display_board(board)
+    display_board(board, winner, tie)
     player = {RED:'red', YELLOW:'yellow'}
     winner = check_win(board)
     tie = check_tie(board)

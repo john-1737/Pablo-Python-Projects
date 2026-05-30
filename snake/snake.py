@@ -150,27 +150,30 @@ speed_var = 1
 #     speed_var = 1
 #     for event in pg.event.get():
 #         if event.type == pg.QUIT:
-#             raise SystemExit
+#             pg.quit() ; exit()
 #         elif event.type == pg.KEYDOWN:
 #             if event.key == pg.K_RETURN:
 #                 speed_var += 1
-#     speed = speed_var % 3            
+#             elif event.key == pg.K_SPACE:
+#                 start_screen = False
+#     speed = speed_var % 3       
 #     game()
 #     render_text('Welcome to Snake!', (0, 0), font, color=(0, 0, 0))
 #     render_text('Try to make your snake eat the apples. Steer the snake with the arrow keys.', (0, 50), font, color=(0, 0, 0))
 #     render_text('If your snake hits itself or the wall, it\'s game over!', (0, 100), font, color=(0, 0, 0))
-#     render_text(f'Press ENTER/RETURN to change the snake\'s speed. Current speed: {speed}.', (0, 100), font, color=(0, 0, 0))
-#     render_text('Press SPACE to start!', (0, 100), font, color=(0, 0, 0))    
+#     render_text(f'Press ENTER/RETURN to change the snake\'s speed. Current speed: {speed}.', (0, 150), font, color=(0, 0, 0))
+#     render_text('Press SPACE to start!', (0, 200), font, color=(0, 0, 0))
+#     pg.display.update()   
 
 while not game_over:
     for event in pg.event.get():
         if event.type == pg.QUIT:
-            raise SystemExit
+            pg.quit() ; exit()
         elif event.type == pg.KEYDOWN:
             if event.key in[pg.K_LEFT, pg.K_RIGHT, pg.K_UP, pg.K_DOWN]:
                 s.rotate(event.key)
             if event.key == pg.K_ESCAPE:
-                raise SystemExit
+                pg.quit() ; exit()
     game()    
     s.move()
     s.draw()
@@ -190,9 +193,9 @@ while not game_over:
 while True:
     for event in pg.event.get():
         if event.type == pg.QUIT:
-            raise SystemExit
+            pg.quit() ; exit()
         if event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
-            raise SystemExit        
+            pg.quit() ; exit()        
     game()
     render_text('game over!', (10*SIZE, 3*SIZE), font, color=(0, 0, 0))
     pg.display.update()

@@ -5,6 +5,7 @@ import idepkg as id
 from PIL import Image, ImageTk
 
 def launch():
+    output.delete('1.0', 'end')
     try:
         exec(inp.get(1.0, 'end'))
     except Exception as e:
@@ -16,6 +17,7 @@ def launch_file():
         return
     with open(name) as f:
         text = f.read()
+    output.delete('1.0', 'end')
     try:
         exec(text)
     except Exception as e:
@@ -27,12 +29,14 @@ def print(*values, sep=' ', end='\n', file='', flush=False):
     output['state'] = 'disabled'
 
 def input(prompt=''):
-    global out
     print(prompt, end='')
-    out = ''
+    id.out = None
     output['state'] = 'normal'
     output.bind('<Return>', lambda evt: id.calc_return(prompt, output))
-    return out
+    while id.out == None:
+        master.update()
+    output.insert('end', '\n')
+    return id.out
 
 def setfolder():
     folder_name = filedialog.askdirectory()

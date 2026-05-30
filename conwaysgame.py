@@ -21,7 +21,7 @@ font = pg.font.SysFont(None, 48)
 # Function to render text
 def render_text(text, pos):
     text_surface = font.render(text, True, (255, 255, 255))
-    screen.blit(text_surface, pos)            
+    screen.blit(text_surface, pos)           
 
 def generate_next_cells(cells):
     return_cells = deepcopy(cells)
@@ -78,6 +78,11 @@ while True:
                         drawn_cells[pos_x, pos_y] = DEAD
                     else:
                         drawn_cells[pos_x, pos_y] = ALIVE
+            elif event.type == pg.KEYUP and event.key == pg.K_SPACE:
+                first_run = False
+        screen.fill((0,0,0))
+        render_text('Click cells to select them.', (0, (H * SIZE)))
+        render_text('Press SPACE to start simulation.', (0, (H * SIZE) + 50))
         draw_cells(drawn_cells)
         pg.display.update()
 
@@ -91,19 +96,21 @@ while True:
                 pg.quit()
                 exit()
             elif event.type == pg.KEYDOWN:
-                if event.key == pg.K_SPACE:
-                    second_run = False
-                elif event.key == pg.K_PLUS:
+                if event.key == pg.K_UP:
                     fps += 1
                     if fps == 61:
                         fps = 1
-                elif event.key == pg.K_MINUS:
+                elif event.key == pg.K_DOWN:
                     fps -= 1
                     if fps == 0:
                         fps = 60
+            elif event.type == pg.KEYUP and event.key == pg.K_SPACE:
+                drawn_cells = cells
+                second_run = False
         next_cells = generate_next_cells(cells)
         screen.fill((0, 0, 0))
-        render_text(f'FPS: {fps}', (0, (H * SIZE) + 50))
+        render_text(f'FPS: {fps}', (0, (H * SIZE)))
+        render_text('Change FPS with up/down keys. Press SPACE to stop simulation.', (0, (H * SIZE) + 50))
         draw_cells(next_cells)
         pg.display.update()
         clock.tick(fps)

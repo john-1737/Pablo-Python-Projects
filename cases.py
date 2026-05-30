@@ -20,10 +20,12 @@ def camelCase(text):
     text = ''.join(text)
     returntext = text.replace(' ', '')
     return returntext
+
 def PascalCase(text):
     text = text.title()
     returntext = text.replace(' ', '')
     return returntext
+
 
 while True:
     text = input('Enter some text:\n')

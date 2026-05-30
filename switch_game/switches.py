@@ -57,8 +57,8 @@ puzzle_answer_menu = Menu(puzzles_menu)
 puzzles_menu.add_cascade(menu=puzzle_menu, label='Puzzles')
 puzzles_menu.add_cascade(menu=puzzle_answer_menu, label='Puzzle Answers')
 for i in range(1, 5):
-    puzzle_menu.add_command(label=f'Puzzle {i}', command=lambda:messagebox.showinfo(message=puzzles[i][q]))
-    puzzle_answer_menu.add_command(label=f'Puzzle {i} Answer', command=lambda:messagebox.showinfo(message=puzzles[i][a]))    
+    puzzle_menu.add_command(label=f'Puzzle {i}', command=lambda i=i:messagebox.showinfo(message=puzzles[i][q]))
+    puzzle_answer_menu.add_command(label=f'Puzzle {i} Answer', command=lambda i=i:messagebox.showinfo(message=puzzles[i][a]))    
 
 light = Label(root, image=light_image)
 light.grid(column=1, row=0)
